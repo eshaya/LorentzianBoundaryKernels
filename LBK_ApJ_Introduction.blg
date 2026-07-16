@@ -1,0 +1,68 @@
+This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: LBK_ApJ_Introduction.aux
+The style file: apsrev4-2.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: LBK_ApJ_IntroductionNotes.bib
+Database file #2: LBK.bib
+Warning--I didn't find a database entry for "REVTEX42Control"
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+apsrev4-2.bst 2019-01-14 (MD) hand-edited version of apsrev4-1.bst
+Control: key (0) 
+Control: author (72) initials jnrlst
+Control: editor formatted (1) identically to author
+Control: production of article title (-1) disabled
+Control: page (0) single
+Control: year (1) truncated
+Control: production of eprint (0) enabled
+You've used 12 entries,
+            6079 wiz_defined-function locations,
+            1715 strings with 16954 characters,
+and the built_in function-call counts, 9130 in all, are:
+= -- 758
+> -- 144
+< -- 43
++ -- 59
+- -- 30
+* -- 1314
+:= -- 985
+add.period$ -- 12
+call.type$ -- 12
+change.case$ -- 54
+chr.to.int$ -- 9
+cite$ -- 12
+duplicate$ -- 824
+empty$ -- 630
+format.name$ -- 84
+if$ -- 1764
+int.to.chr$ -- 4
+int.to.str$ -- 20
+missing$ -- 104
+newline$ -- 88
+num.names$ -- 36
+pop$ -- 337
+preamble$ -- 1
+purify$ -- 60
+quote$ -- 0
+skip$ -- 418
+stack$ -- 0
+substring$ -- 231
+swap$ -- 754
+text.length$ -- 11
+text.prefix$ -- 0
+top$ -- 8
+type$ -- 147
+warning$ -- 0
+while$ -- 30
+width$ -- 0
+write$ -- 147
+(There was 1 warning)
