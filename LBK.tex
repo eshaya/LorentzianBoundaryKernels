@@ -1,7 +1,6 @@
-\documentclass[aps,prd,twocolumn,superscriptaddress,nofootinbib,longbibliography]{revtex4-2}
-
+\documentclass[11pt,a4paper]{article}
+\usepackage{jcappub}
 \usepackage{amsmath,amssymb,bm,mathtools,booktabs,microtype,graphicx}
-\usepackage[colorlinks=true,allcolors=blue]{hyperref}
 \newcommand{\Mpl}{\bar M_{\rm P}}
 \newcommand{\dd}{\mathrm d}
 \newcommand{\cM}{\mathcal M}
@@ -9,49 +8,80 @@
 \newcommand{\CP}{\mathbb{CP}}
 \usepackage{orcidlink}
 
-\begin{document}
+\IfFileExists{minimal_per_k_kernel_values.tex}{\input{minimal_per_k_kernel_values.tex}}{}
+\IfFileExists{matrix_per_k_kernel_values.tex}{\input{matrix_per_k_kernel_values.tex}}{}
+
 \title{Lorentzian Boundary Kernels as a Compactification Test for Primordial Cosmology}
 
 \author{Edward J. Shaya\ \orcidlink{0000-0002-3234-8699}}
-\email{eshaya2@gmail.com}
 \affiliation{Department of Astronomy, University of Maryland, College Park, USA}
-
-
+\emailAdd{eshaya2@gmail.com}
 
 \date{\today}
 
-\begin{abstract}
-A proposed higher-dimensional universe is usually tested against the cosmic microwave background only after a complete four-dimensional effective theory has been constructed, canonically normalized, and evolved mode by mode. We formulate a complementary test in which the primary object is the constrained Lorentzian boundary kernel of the Feynman--DeWitt wave functional. At quadratic order the imaginary part of this kernel is the inverse covariance of the physical boundary perturbations. The scalar and tensor power spectra, their tilts, the tensor-to-scalar ratio, isocurvature power, and stability conditions can therefore be read from one matrix-valued object. Heavy moduli and Kaluza--Klein modes enter through a Schur complement, which makes their decoupling or observational imprint explicit before a full Boltzmann analysis is attempted. We derive the general construction, recover the standard inflationary result in the single-field limit, and give two worked compactification templates: $M_4\times S^2 \times \CP^2$, including the flux branches $(m,n)=(3,3)$ and $(1,5)$, and $M_4 \times S^3\times S^3$ as a geometrically distinct control. The method does not uniquely reconstruct an internal manifold from the CMB. It provides a rapid acceptability test and a discriminant whenever internal modes remain light enough to modify the scalar or tensor kernel.
-\end{abstract}
+
+\abstract{Evaluating higher-dimensional
+compactifications against cosmic microwave background (CMB) data typically requires 
+constructing a complete four-dimensional effective theory and evolving perturbations mode-by-mode. We formulate a 
+highly efficient, complementary screening diagnostic that bypasses this technical bottleneck. The primary object is the 
+constrained Lorentzian boundary kernel of the Feynman--DeWitt wave functional, whose imaginary part evaluated on the 
+classical saddle directly yields the inverse covariance of the physical boundary perturbations. Consequently, the 
+scalar and tensor power spectra, their tilts, the tensor-to-scalar ratio, and isocurvature limits can be extracted from 
+a single matrix-valued object. Heavy moduli and Kaluza--Klein modes enter through a Schur complement, making their 
+decoupling or phenomenological imprints explicit prior to a full Boltzmann analysis. We demonstrate this pipeline's 
+utility using two worked ten-dimensional templates: $M_{4}\times S^{2}\times\CP^{2}$ (including flux branches 
+$(m,n)=(3,3)$ and $(1,5)$) and a geometrically distinct $M_{4}\times S^{3}\times S^{3}$ control. This method provides a 
+rapid pass/fail acceptability test for candidate universes, isolating compactifications that remain light enough to 
+generate observable signatures in the 
+scalar or tensor kernels.}
+
+\keywords{quantum cosmology, cosmology with extra dimensions, cosmological perturbation theory, Inflation and CMBR theory}
+
+\begin{document}
 
 \maketitle
+\flushbottom
 
 \section{Introduction}
-The usual route from a higher-dimensional theory to a prediction for the cosmic microwave background (CMB) is conceptually straightforward but technically expensive. One chooses a compactification, reduces the theory to four dimensions, identifies the light fields, transforms to the four-dimensional Einstein frame, diagonalizes the kinetic terms, finds an inflationary background, derives the gauge-invariant perturbation equations, selects a quantum state, evolves every relevant mode, and finally passes the primordial spectra to a Boltzmann code. This sequence is necessary for precision parameter estimation. It is often more work than is needed to decide whether a candidate universe is viable at all.
+The cosmic microwave background (CMB) constrains the statistics of primordial curvature, tensor, and isocurvature perturbations rather than the microscopic theory that produced them.  For a conventional single-field model, the route from an inflationary background to these statistics is well established.  For models with additional scalar fields, compactification moduli, Kaluza--Klein (KK) modes, nontrivial field-space geometry, or modified gravitational sectors, the same route becomes substantially less transparent.  The observable perturbation can mix with hidden degrees of freedom before horizon exit, and the quantities ultimately supplied to a Boltzmann code are then entries of a coupled primordial covariance matrix rather than a single power law.
 
-This paper develops a faster intermediate test. The central object is the quadratic boundary kernel of the Lorentzian Feynman--DeWitt wave functional. The kernel is evaluated on the classical saddle after the lapse, shift, gauge redundancy, and nondynamical matter variables have been eliminated. Its imaginary part determines the Gaussian width of the physical boundary state. In Fourier space that width is the primordial covariance. In a coupled system the kernel is a matrix containing the curvature perturbation, the two graviton polarizations, isocurvature fields, moduli, and any Kaluza--Klein (KK) modes retained in the truncation.
+The practical problem addressed here is therefore not to replace existing CMB analysis software. Astrophysicists already have mature tools for evolving primordial spectra through recombination and for comparing the resulting angular spectra with microwave-background data. This sequence is necessary for precision parameter estimation using Boltzmann codes like CAMB or CLASS. However, in the context of scanning large landscapes of flux vacua or modulus geometries, it is often vastly more work than is needed to decide whether a candidate universe is observationally viable at all. What is often missing is a compact theory-side interface between a coupled early-universe model and those established pipelines. A useful method should accept the background and quadratic perturbation matrices of a model, evolve them independently for each comoving wavenumber $k$, return scalar, tensor, and isocurvature covariances, and make clear when additional sectors have decoupled or have left an observable imprint.
 
-The method is not a replacement for standard cosmological perturbation theory. At quadratic order it is the same physics written in a form particularly well adapted to comparing compactifications. The advantage is organizational. All effects of the internal manifold enter through four ingredients: the background saddle, the kinetic metric of the light fields, the mass and mixing matrices, and the spectrum of internal differential operators. These ingredients flow into a single effective boundary kernel. A compactification can be quickly shown to be consistent with present day observations of the CMB, or it can fail quickly because the kernel has a negative-width direction, an unsuppressed isocurvature eigenmode, an unacceptable scalar tilt, an excessive tensor amplitude, or a light internal mode that produces large features.
+The relevant cosmological sequence must also be kept distinct.  A quantum or compactification boundary need not coincide with the onset of inflation, and the onset of inflation need not coincide with the horizon exit of the modes observed in the CMB.  Schematically,
+\begin{equation}
+\begin{split}
+\text{quantum boundary}&\longrightarrow\text{pre-inflation}\nonumber\\
+&\longrightarrow\text{inflation}\longrightarrow k=aH\longrightarrow\text{CMB}.
+\end{split}
+\end{equation}
+The scalar amplitude is fixed by the background at horizon exit,
+\begin{equation}
+\Delta_\zeta^2(k_*)\simeq
+\frac{H_*^2}{8\pi^2\epsilon_*\Mpl^2},
+\end{equation}
+not by the Hubble scale at the earliest admissible boundary.  An intermediate expanding phase can separate the two scales.  For example, if that phase is radiation-like, $H\propto a^{-2}$ and
+\begin{equation}
+\Delta N_{\rm pre}=\frac12\ln\!\left(\frac{H_{\rm Q}}{H_{\rm inf}}\right).
+\end{equation}
+Taking $H_{\rm Q}\simeq0.84M_{\rm P}$ and $H_{\rm inf}\simeq3\times10^{-6}M_{\rm P}$ gives about $6.3$ pre-inflationary e-folds.  This estimate is illustrative rather than a prediction; the equation of state and the transition into inflation must be supplied by the model being tested.
 
-The formulation adopted here is therefore not proposed as an alternative quantum theory. For a fixed background sector, contour, and Gaussian state, it is equivalent to the Schrödinger wave functional, canonical mode-function quantization, and the in-in formalism. Its value lies in the way it organizes the problem. The classical solution appears as a saddle of the action, while the quadratic boundary Hessian records the finite quantum width around that saddle. Compactification moduli, KK modes, and observable perturbations can consequently be assembled into one matrix kernel and reduced uniformly before comparison with cosmological data. This representation may become especially useful when several fields, compactification sectors, or saddles must be retained simultaneously.
+We formulate the missing interface in terms of the quadratic Lorentzian boundary kernel of the Feynman--DeWitt wave functional. After the lapse, shift, gauge redundancy, and nondynamical matter variables have been eliminated, the kernel is a matrix on the physical perturbation space. Its Hermitian imaginary part is the inverse Gaussian covariance of the boundary state. In a coupled system, this kernel is a matrix containing the adiabatic curvature perturbation $\zeta$, the two graviton polarizations $h_{+,\times}$, isocurvature fields, moduli, and any Kaluza--Klein (KK) modes retained in the truncation. A compactification can thus fail quickly if this kernel possesses an unsuppressed isocurvature eigenmode, an unacceptable scalar tilt $n_s$, or an excessive tensor amplitude, long before late-time mode evolution is simulated. Hidden fields are removed by a Schur complement, making their decoupling, instability, or residual scale dependence explicit before any transfer-function calculation is performed.
 
-The uncertainty principle and inflationary mode evolution are likewise not treated as two independent stochastic mechanisms. In the Gaussian approximation they are, respectively, the width of the quantum state and the subsequent dynamical evolution of that same width. Inflation does not generate statistically independent fluctuations point by point; it evolves a correlated field configuration whose covariance is encoded by the boundary kernel. This viewpoint changes no quadratic prediction, but it makes explicit which information belongs to the state, which belongs to propagation, and which assumptions enter when a particular compactification and contour are selected.
+At quadratic order this is standard cosmological perturbation theory organized around a common computational object, not an alternative quantum theory.  For a fixed background, contour, and Gaussian state it is equivalent to canonical mode evolution, the Schr\"odinger wave functional, and the in-in formalism \cite{HalliwellHawking1985,PolarskiStarobinsky1996,Maldacena2003}.  Its advantage is organizational: the same matrix evolution handles adiabatic, entropy, tensor, modulus, and retained KK sectors, while positivity of the imaginary kernel provides a direct diagnostic of whether the chosen saddle and state define an acceptable covariance.
 
-The relation between a Gaussian wave functional and a cosmological spectrum is standard \cite{HalliwellHawking1985,PolarskiStarobinsky1996,Maldacena2003}. The useful point here is to treat the constrained matrix kernel as a common interface between higher-dimensional geometry and CMB observables. The same formula applies when one changes the compactification manifold, flux sector, or modulus content. In the decoupling limit all acceptable compactifications reduce to the familiar four-dimensional result. A manifold can be distinguished only through corrections that survive in the observable window.
+The output of the calculation is a tabulated primordial covariance on a $k$ grid.  In the adiabatic limit this reduces to $\mathcal P_{\mathcal R}(k)$ and $\mathcal P_T(k)$.  With additional light sectors it also includes isocurvature spectra and cross correlations.  These quantities can be passed to an existing CLASS-, CAMB-, or equivalent Boltzmann workflow; the subsequent computation of $C_\ell^{TT}$, $C_\ell^{TE}$, $C_\ell^{EE}$, lensing, and likelihoods is unchanged.  The boundary kernel itself is not an observable measured by Planck or any other CMB experiment.  It is the theory-side object from which the primordial inputs to those analyses are derived.
 
-We illustrate the procedure with two ten-dimensional products. The first is
+To illustrate the universality of this screening pipeline, we apply it to two distinct ten-dimensional product manifolds. The first is
 \begin{equation}
 \cM_{10}=M_4\times S^2\times\CP^2,
 \end{equation}
-which is the compactification used in the companion UECKK construction, the associated zero-mode family calculation, and the spin--torsion vacuum-stability analysis \cite{ShayaUECKK2026,ShayaZeroModes2026,ShayaVacuum2026}. It has independent radii and quantized fluxes. It admits the factorized chiral index
+used in the companion UECKK construction, its zero-mode family analysis, and its spin--torsion stability study \cite{ShayaUECKK2026,ShayaZeroModes2026,ShayaVacuum2026}. Its two radii and quantized fluxes provide a nontrivial coupled modulus sector. The branches $(m,n)=(3,3)$ and $(1,5)$ both satisfy
 \begin{equation}
-N_{\rm fam}=m\frac{n^2-1}{8},
+N_{\rm fam}=m\frac{n^2-1}{8}=3,
 \end{equation}
-so that both $(m,n)=(3,3)$ and $(1,5)$ yield three chiral families while distributing the flux and zero-mode wave functions differently over the two factors. The second example is
-\begin{equation}
-\cM_{10}=M_4\times S^3\times S^3,
-\end{equation}
-which has a different curvature, harmonic spectrum, and modulus structure but remains simple enough to display the kernel construction analytically. It serves as a control rather than as a complete particle-physics model.
+but distribute flux differently and therefore have different canonical masses and potential CMB responses. The second example is $\cM_{10}=M_4\times S^3\times S^3$, which provides a geometrically distinct control to demonstrate how differing internal harmonic spectra flow into the boundary kernel. The numerical examples are intended to show how a cosmologist connects model data to the kernel engine and then to existing CMB software. They are screening calculations, not a claim that present microwave-background data uniquely identify either internal manifold.
+
+The paper is organized as follows.  Section~\ref{sec:kernel} defines the constrained boundary kernel and its covariance.  Section~\ref{sec:observables} connects it to primordial observables.  Section~\ref{sec:compactification} specifies the compactification data required by the calculation.  The remaining sections develop the Schur-complement reduction, the worked compactification examples, and the per-$k$ numerical implementation, and then describe the handoff to a full CMB likelihood analysis.
 
 \section{The constrained Lorentzian boundary kernel}
 \label{sec:kernel}
@@ -93,7 +123,7 @@ A normalizable Gaussian requires $K_I$ to be positive definite on the physical s
 \end{equation}
 Equation~\eqref{eq:cov} is the central diagnostic of this paper.
 
-The interpretation is elementary. The saddle is the mean history. The quadratic neighborhood of the saddle is its quantum width. In canonical language the uncertainty relation fixes an irreducible phase-space area, while the Hessian and the contour determine the shape and orientation of the uncertainty ellipse. The path integral does not assign independent random numbers to spatial cells; it assigns an amplitude to an entire constrained field configuration. A $1/\sqrt N$ counting law appears only when a coarse-grained observable averages over approximately independent correlation volumes.
+The saddle is the mean history and the quadratic neighborhood is its quantum width. The contour and Hessian determine the associated uncertainty ellipse for the full constrained field configuration, not independent random values in spatial cells.
 
 \subsection{Constraints and physical variables}
 For gravity the ADM action has the form
@@ -106,7 +136,7 @@ For an isotropic four-dimensional background with scalar fields $\varphi^a$, a c
 \begin{equation}
 q_A=(\zeta,s^\alpha,h_+,h_\times,\chi^r),
 \end{equation}
-where $\zeta$ is the adiabatic curvature perturbation, $s^\alpha$ are isocurvature directions, $h_\lambda$ are the two tensor polarizations, and $\chi^r$ are retained internal or KK modes. The kernel in this basis is gauge invariant. A negative eigenvalue of $K_I$ is not a coordinate instability; it signals that the selected contour does not define a normalizable state in that direction or that the saddle is unstable.
+where $\zeta$ is the adiabatic curvature perturbation, $s^\alpha$ are isocurvature directions, $h_\lambda$ are the two tensor polarizations, and $\chi^r$ are retained internal or KK modes. This adiabatic--entropy decomposition is the standard organization of linear perturbations in multifield inflation, with bending of the background trajectory sourcing transfer between the two sectors \cite{GordonEtAl2001}. The kernel in this basis is gauge invariant. A negative eigenvalue of $K_I$ is not a coordinate instability; it signals that the selected contour does not define a normalizable state in that direction or that the saddle is unstable.
 
 \subsection{Moving the boundary}
 The division between an ``initial state'' and ``later mode evolution'' depends on where an intermediate hypersurface is placed. Let $G_{21}(q_2,q_1)$ be the quadratic propagator between two boundaries. Composition gives
@@ -233,7 +263,7 @@ When an internal mode has mass $M\gg H$ and varies adiabatically,
 \delta K_L\sim-\frac{K_{LH}K_{HL}}{M^2}
 =\mathcal O\left(\frac{H^2}{M^2}\right)K_{LL},
 \end{equation}
-up to couplings and slow-roll factors. Distinct manifolds then become observationally degenerate. If $M\sim H$, corrections can be large and may appear in power-spectrum features or higher-point functions \cite{ArkaniHamedMaldacena2015}.
+up to couplings and slow-roll factors. In this regime the heavy sector can be integrated out, yielding a controlled single-field effective theory, although a sufficiently sharp turn can reduce the sound speed and delay decoupling \cite{AchucarroEtAl2012EFT,CespedesAtalPalma2012}. Distinct manifolds then become observationally degenerate. If $M\sim H$, corrections can be large and may appear in power-spectrum features or higher-point functions; quasi-single-field inflation provides the canonical example in which an intermediate-mass field leaves characteristic non-Gaussian signatures \cite{ChenWang2010,ArkaniHamedMaldacena2015}.
 
 For numerical work one may evolve the kernel directly. For a canonically normalized vector $v$ obeying
 \begin{equation}
@@ -248,7 +278,7 @@ up to the kinetic prefactor, and satisfies the Riccati equation
 K'+K^2+\Omega^2=0.
 \label{eq:riccati}
 \end{equation}
-This avoids separately normalizing every mixed mode and is convenient for scanning flux sectors or manifolds.
+This avoids separately normalizing every mixed mode and is convenient for scanning flux sectors or manifolds. Closely related matrix-evolution strategies underlie the transport method and established public multifield codes, including \texttt{CppTransport} and \texttt{MultiModeCode} \cite{DiasFrazerSeery2015,Seery2016,PriceEtAl2015}.
 
 \section{Worked Example: $M_4\times S^2\times\CP^2$}
 \label{sec:s2cp2}
@@ -397,7 +427,7 @@ Thus, in units $\Mpl=1$,
 G_{S^2\times\CP^2}=\begin{pmatrix}4&4\\4&12\end{pmatrix},\qquad
 G_{S^3\times S^3}=\begin{pmatrix}15/2&9/2\\9/2&15/2\end{pmatrix}.
 \end{equation}
-For the illustrative benchmark in this section we keep the two-radion matrix. This is also the appropriate default for the UECKK interpretation used here: unimodularity fixes the total spacetime volume element and is normally solved by the lapse or determinant variable, not by freezing $V_6$. Appendix~\ref{app:unimodularG} derives this full metric and explains the optional fixed-internal-volume truncation. Appendix~\ref{app:canonicalmassscreen} uses the full $G^{-1}H$ mass matrix for the first CMB-scale decoupling screen, and reports the one-field fixed-volume projection only as a comparison.
+We keep the full two-radion matrix. In the UECKK interpretation unimodularity fixes the total spacetime measure, not $V_6$ alone. Appendix~\ref{app:unimodularG} records the metric, and Appendix~\ref{app:canonicalmassscreen} gives the coordinate-invariant $G^{-1}H$ construction used in the main-text decoupling table.
 For $S^2\times\CP^2$ we set $A=B=q=1$ and $C=0.05$ in Eq.~\eqref{eq:potential}. For the control model we use
 \begin{multline}
 U_{33}=-6\left(b_1^{-5}b_2^{-3}+b_1^{-3}b_2^{-5}\right)\\
@@ -407,10 +437,9 @@ U_{33}=-6\left(b_1^{-5}b_2^{-3}+b_1^{-3}b_2^{-5}\right)\\
 \end{multline}
 The extrema are found in logarithmic variables and the canonical mass matrix is $G^{-1}\nabla\nabla U$. Table~\ref{tab:benchmarknumbers} lists the results. All three examples possess a stable homogeneous saddle in this benchmark, but their radii and canonical mass eigenvalues differ substantially.
 
-\begin{table}[t]
+\begin{table}[tbp]
 \caption{Dimensionless benchmark minima and eigenvalues of $G^{-1}\nabla\nabla U$. These values demonstrate the pipeline and are not microscopic predictions.}
 \label{tab:benchmarknumbers}
-\begin{ruledtabular}
 \begin{tabular}{lcccc}
 Model & $a_1$ or $b_1$ & $a_2$ or $b_2$ & $m_-^2$ & $m_+^2$\\
 \hline
@@ -418,22 +447,47 @@ $(3,3)$ on $S^2\times\CP^2$ & 0.929 & 0.725 & 122.6 & 255.6\\
 $(1,5)$ on $S^2\times\CP^2$ & 0.535 & 1.151 & 34.1 & 72.1\\
 $S^3\times S^3$ control & 1.033 & 1.033 & 12.1 & 30.3\\
 \end{tabular}
-\end{ruledtabular}
 \end{table}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.98\columnwidth]{figures/benchmark_33.pdf}
-\caption{Benchmark potential for the $(3,3)$ branch on $S^2\times\CP^2$. The dot marks the stable extremum.}
-\label{fig:benchmark33}
-\end{figure}
+The first CMB-scale use of these numbers is the decoupling test. At a stationary point the covariant mass matrix is
+\begin{equation}
+(M^2)^I{}_{J}=G^{IK}\nabla_K\nabla_JU=G^{IK}H_{KJ},
+\qquad H_{KJ}=\partial_K\partial_JU,
+\label{eq:maincanonicalmass}
+\end{equation}
+because the gradient of $U$ vanishes and the logarithmic-radion metric is constant. The dimensionless quantities that enter the per-$k$ kernel screen are
+\begin{equation}
+\mu_\pm^2=\frac{m_\pm^2}{H_*^2}.
+\label{eq:mainmuratios}
+\end{equation}
+Table~\ref{tab:canonicalmasses} is therefore a main-text result: it gives the canonical masses consumed by the minimal per-$k$ implementation. The fixed-$V_6$ column is retained only as a diagnostic one-field truncation; it is not the default UECKK interpretation of unimodularity.
 
-\begin{figure}[t]
+\begin{table}[tbp]
+\caption{Canonical homogeneous-modulus masses for the benchmark $S^2\times\CP^2$ branches. The optional column $m_{\rm fixed\,V_6}^2$ is the one-field mass obtained only after imposing the additional fixed-internal-volume truncation. All entries use the same dimensionless potential units as Table~\ref{tab:benchmarknumbers}.}
+\label{tab:canonicalmasses}
+%\begin{ruledtabular}
+\begin{tabular}{c c c c c c}
+branch & $a_1$ & $a_2$ & $m_-^2$ & $m_+^2$ & $m_{\rm fixed\,V_6}^2$\\
+\hline
+$(3,3)$ & $0.929$ & $0.725$ & $122.6$ & $255.6$ & $241.6$\\
+$(1,5)$ & $0.535$ & $1.151$ & $34.1$ & $72.1$ & $72.0$
+\end{tabular}
+%\end{ruledtabular}
+\end{table}
+
+\begin{figure*}[tbp]
 \centering
-\includegraphics[width=0.98\columnwidth]{figures/benchmark_15.pdf}
-\caption{Benchmark potential for the $(1,5)$ branch. Although it has the same family index as $(3,3)$, its flux distribution moves the minimum and changes the local Hessian.}
-\label{fig:benchmark15}
-\end{figure}
+\begin{minipage}{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/benchmark_33.pdf}
+\end{minipage}\hfill
+\begin{minipage}{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{figures/benchmark_15.pdf}
+\end{minipage}
+\caption{Benchmark potentials for the two $S^2\times\CP^2$ branches. Left: $(3,3)$; right: $(1,5)$. The dots mark the stable extrema. Although the two branches have the same family index, their flux distributions move the minimum and change the local Hessian.}
+\label{fig:benchmarkpotentials}
+\end{figure*}
 
 \subsection{Observed amplitude and the tensor constraint}
 Combining $A_s=H_*^2/(8\pi^2\epsilon_*\Mpl^2)$ with $r=16\epsilon_*$ and $M_{\rm P}=\sqrt{8\pi}\Mpl$ gives
@@ -443,7 +497,7 @@ Combining $A_s=H_*^2/(8\pi^2\epsilon_*\Mpl^2)$ with $r=16\epsilon_*$ and $M_{\rm
 \end{equation}
 Figure~\ref{fig:amplitudecurve} uses $A_s=2.10\times10^{-9}$ and the BICEP/Keck limit $r_{0.05}<0.036$ \cite{BICEPKeck2021,BICEPKeckReview2024}. In the canonical single-field limit the bound corresponds to $H_*/M_{\rm P}<3.9\times10^{-6}$. A proposed compactification supplies the background value of $H_*$ and the tensor kernel supplies $r$; their point must lie on this curve.
 
-\begin{figure}[t]
+\begin{figure}[tbp]
 \centering
 \includegraphics[width=\columnwidth]{figures/amplitude_curve.pdf}
 \caption{The Hubble scale required by the measured scalar amplitude as a function of $r$. The shaded region is excluded by the current BICEP/Keck bound.}
@@ -464,7 +518,7 @@ Since the power is inversely proportional to $\operatorname{Im}K$, the response 
 \end{equation}
 For Fig.~\ref{fig:schurcorrection} we set the common illustrative values $H^2=10$ and $\gamma=0.4$, and insert the lighter canonical mass from Table~\ref{tab:benchmarknumbers}. The calculation is deliberately simple enough to reproduce by inspection. A full model replaces Eq.~\eqref{eq:toySchur} by the Riccati evolution of the constrained matrix kernel.
 
-\begin{figure}[t]
+\begin{figure}[tbp]
 \centering
 \includegraphics[width=\columnwidth]{figures/schur_corrections.pdf}
 \caption{Illustrative scalar-power response from one internal mode. The different mass eigenvalues generate visibly different scale dependences.}
@@ -476,58 +530,91 @@ Figure~\ref{fig:observationalcomparison} carries the benchmark through to an obs
 
 With the illustrative choices above, the $(3,3)$ curve remains inside this one-standard-deviation parameter envelope over about $94\%$ of the plotted logarithmic $k$ grid, the $(1,5)$ curve over about $28\%$, and the $S^3\times S^3$ control over about $5\%$. These percentages are not likelihoods and must not be interpreted as observational confidence levels. They demonstrate that the kernel method can return a positive or negative screening verdict once the compactification masses and mixings are supplied. In this benchmark the $(3,3)$ branch is close to the observed power-law shape, whereas the lighter internal modes of the other examples generate excessive low-$k$ curvature.
 
-\begin{figure*}[t]
+\begin{figure*}[tbp]
 \centering
 \includegraphics[width=0.88\textwidth]{figures/observational_comparison.pdf}
 \caption{Benchmark primordial spectra compared with the Planck 2018 best-fit power law and its one-standard-deviation parameter envelope. This is an observational comparison, but not yet a manifold prediction: the benchmark mixing $\gamma$ and the overall potential normalization have not been derived from either higher-dimensional action. A genuine confirmation or exclusion of $M_4\times S^2\times\CP^2$ requires those microscopic inputs.}
 \label{fig:observationalcomparison}
 \end{figure*}
 
+\begin{figure*}[tbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/per_k_minimal_screen.pdf}
+\caption{Minimal per-$k$ LBK implementation.  The curves show the fractional residual relative to the Planck best-fit primordial power law after pivot normalization.  The shaded region is the pointwise envelope generated by the $1\sigma$ uncertainties in $A_s$ and $n_s$.  For the illustrative choices $H^2=10$ and $\bm b=(0.40,0.22)$, the fractions of the plotted $k$ grid inside the envelope are $\PerKThirtyThreeInside\%$ for $(3,3)$, $\PerKOneFiveInside\%$ for $(1,5)$, and $\PerKSthreeInside\%$ for $S^3\times S^3$.  This is a code-level demonstration of the screening workflow, not a final Planck likelihood.}
+\label{fig:perkminimal}
+\end{figure*}
+
+The comparison can be implemented literally as a loop over wavenumber.  For the minimal algebraic screen one sets $x=k/k_*$ and uses
+\begin{equation}
+R_{\mathcal M}(k)=\left[1-\bm b^{T}
+\left(\operatorname{diag}\mu_a^2+x^2\mathbf 1\right)^{-1}\bm b\right]^{-1},
+\qquad
+\mu_a^2=\frac{m_a^2}{H_*^2},
+\label{eq:perkresponse}
+\end{equation}
+where $m_a^2$ are the canonical hidden-sector eigenvalues and $\bm b$ is the dimensionless vector of curvature--modulus mixing strengths.  The primordial curve is then normalized at the pivot,
+\begin{equation}
+\Delta_{\zeta,\mathcal M}^2(k)=\Delta_{\zeta,\rm Pl}^2(k)
+\frac{R_{\mathcal M}(k)}{R_{\mathcal M}(k_*)}.
+\label{eq:perknormalized}
+\end{equation}
+Equations~\eqref{eq:perkresponse}--\eqref{eq:perknormalized} are the shortest useful implementation of the LBK screen for each $k$.  They do not replace the full Riccati evolution; rather, they provide a reproducible first pass that consumes the compactification masses and an assumed mixing vector before a full background trajectory is known.  The source package includes the script \texttt{minimal\_per\_k\_kernel.py}, which evaluates these equations on a logarithmic $k$ grid and writes Fig.~\ref{fig:perkminimal}.
+
+
+\subsection{Matrix-evolved implementation of the per-$k$ workflow}
+The algebraic screen above omits propagation.  We therefore also implement the matrix mode evolution listed in Appendix~\ref{app:numericalworkflow}.  The implementation retains one observable canonical mode and two hidden canonical modes.  For each $k$ it evolves a fundamental matrix $F$ in the variable $x=-k\eta$,
+\begin{equation}
+F_{,xx}+\left[\mathbf 1+\frac{C(x,k)}{x^2}\right]F=0,
+\label{eq:matrixmodeimplementation}
+\end{equation}
+from the regular positive-frequency condition $F\propto e^{ix}\mathbf 1/\sqrt{2k}$.  The illustrative matrix $C$ contains the two canonical mass ratios and a localized curvature--modulus turn.  The turn is fixed in conformal time, so different wavenumbers encounter it at different values of $x$ and acquire a scale-dependent response.
+
+At the final boundary the code constructs
+\begin{equation}
+K(k)=kF_{,x}F^{-1},
+\qquad
+K_{\zeta,\mathrm{eff}}=K_{\zeta\zeta}-K_{\zeta H}K_{HH}^{-1}K_{H\zeta},
+\label{eq:implementedkernel}
+\end{equation}
+checks every eigenvalue of the Hermitian imaginary part of $K$, and compares $\operatorname{Im}K_{\zeta,\mathrm{eff}}$ with an otherwise identical zero-mixing evolution.  The resulting spectrum is normalized at the pivot before comparison with the Planck power law.
+
+\begin{figure*}[tbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figures/matrix_per_k_screen.pdf}
+\caption{Dynamical matrix-mode implementation of the per-$k$ workflow.  Unlike Fig.~\ref{fig:perkminimal}, these curves follow from numerical evolution of a coupled fundamental matrix, construction of the late-time boundary kernel, a positivity check, and a Schur complement.  The localized turn and its mixing strengths remain illustrative rather than UECKK-derived.}
+\label{fig:matrixperk}
+\end{figure*}
+
+\begin{table}[tbp]
+\caption{Diagnostics from the matrix-evolved demonstration.  The effective tilt is fitted over $0.01\leq k\leq0.1\,{\rm Mpc}^{-1}$.  The final column is the largest absolute fractional departure from the pivot-normalized Planck power law over the plotted interval.}
+\label{tab:matrixdiagnostics}
+%\begin{ruledtabular}
+\begin{tabular}{lccc}
+Model & inside [\%] & $n_s^{\rm eff}$ & max. residual\\
+\hline
+$(3,3)$ & $\MatrixThirtyThreeInside$ & $\MatrixThirtyThreeNs$ & $\MatrixThirtyThreeMaxResidual$\\
+$(1,5)$ & $\MatrixOneFiveInside$ & $\MatrixOneFiveNs$ & $\MatrixOneFiveMaxResidual$\\
+$S^3\times S^3$ & $\MatrixSthreeInside$ & $\MatrixSthreeNs$ & $\MatrixSthreeMaxResidual$\\
+\end{tabular}
+%\end{ruledtabular}
+\end{table}
+
+For all three demonstrations the minimum eigenvalue of the imaginary kernel remains positive over the complete grid.  This verifies that the chosen contour and toy evolution define a normalizable Gaussian state.  The resulting percentages and tilts are not observational statements about the compactifications: they depend on the deliberately chosen turn profile.  Their purpose is narrower but concrete---every step of the proposed Appendix-D loop has now been executed in code.
+
 The final qualification is essential. The present plot proves that the procedure works and shows which derived quantities control the answer. It does not yet provide positive evidence for the manifold, because changing the benchmark mixing changes the curves. A fourth companion paper on $M_4\times S^2\times\CP^2$ would become possible when $G_{ab}$, the full quadratic mixing matrix, and the inflationary trajectory are derived from the same microscopic model used in the family, torsion, and stability papers.
 
 \section{A practical CMB acceptability test}
 \label{sec:acceptance}
 
-The boundary-kernel method is intended as a staged filter. It does not eliminate the final Boltzmann calculation for a successful model. It reduces the number of models that reach that stage.
-
-\subsection{Stage 1: background viability}
-For each manifold and flux sector:
-\begin{enumerate}
-\item Reduce to the four-dimensional Einstein frame and compute $G_{ab}(\phi)$ and $V_{\rm eff}(\phi)$.
-\item Find a background solution with stabilized internal dimensions or a controlled slow trajectory.
-\item Require positive kinetic eigenvalues and no tachyonic instability faster than the cosmological time scale.
-\item Verify that the KK gap remains above the cutoff used in the truncation.
-\end{enumerate}
-A model failing this stage is not a candidate four-dimensional universe.
-
-\subsection{Stage 2: kernel viability}
-Construct the constrained scalar and tensor kernels on a grid of wavenumbers covering the observable CMB interval. Require
+The method is a staged filter. First derive the four-dimensional Einstein-frame background, require positive kinetic terms, controlled stabilization, and a KK gap consistent with the truncation. Next evolve the constrained scalar and tensor kernels over the observable range and require
 \begin{equation}
 \operatorname{eig}K_I(k)>0
 \end{equation}
-for every retained physical mode and every relevant $k$. A zero or negative eigenvalue identifies a nonnormalizable direction, a bad contour choice, or a physical instability. Next integrate out modes not retained as observables and verify that the Schur complement is numerically stable.
+for every retained physical mode. After integrating out hidden modes, compute $A_s,n_s,\alpha_s,r,n_T$, and the isocurvature fraction, and apply broad observational cuts before running a full Boltzmann likelihood. Two compactifications are distinguishable only if their predicted spectra differ by more than the combined theoretical and observational uncertainty; otherwise the correct conclusion is decoupling or CMB degeneracy.
 
-\subsection{Stage 3: primordial observables}
-From the effective kernels calculate
-\begin{equation}
-A_s,\quad n_s,\quad\alpha_s,\quad r,\quad n_T,
-\quad\beta_{\rm iso},
-\end{equation}
-where $\beta_{\rm iso}$ is the fractional isocurvature power. Apply the broad windows in Eq.~\eqref{eq:screen} and an appropriately stringent isocurvature bound. A model passing these cuts is worth a full likelihood analysis.
-
-\subsection{Stage 4: distinguishability}
-For two candidate manifolds $\cM_1$ and $\cM_2$, define the fractional kernel separation
-\begin{equation}
-\Xi_X(k)=\frac{\left|\operatorname{Im}K_X^{(1)}(k)-
-\operatorname{Im}K_X^{(2)}(k)\right|}
-{\frac12\left[\operatorname{Im}K_X^{(1)}(k)+
-\operatorname{Im}K_X^{(2)}(k)\right]},
-\end{equation}
-for $X=\zeta,T$. If $\Xi_X$ is smaller than the combined observational and theoretical uncertainty throughout the observable window, the two compactifications are CMB-degenerate at the level of two-point functions. This is not a failure of the method. It is the correct statement that the internal geometry has decoupled.
-
-\begin{table*}[t]
+\begin{table*}[tbp]
 \caption{Minimal inputs and outputs of the boundary-kernel screening test.}
-\begin{ruledtabular}
+%\begin{ruledtabular}
 \begin{tabular}{lll}
 Stage & Required input & Immediate output\\
 \hline
@@ -538,38 +625,41 @@ Lorentzian state & regularity or $i\epsilon$ contour & positive imaginary bounda
 CMB screen & $K_{\zeta,\rm eff}$, $K_{T,\rm eff}$ & $A_s,n_s,\alpha_s,r,n_T,\beta_{\rm iso}$\\
 Discrimination & two or more candidate kernels & exclusion, distinguishability, or decoupling bound\\
 \end{tabular}
-\end{ruledtabular}
+%\end{ruledtabular}
 \end{table*}
 
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{What is new and what is not}
-The identification of the Gaussian wave-functional width with the primordial covariance is not new. Neither is the standard inflationary result recovered in Sec.~\ref{sec:observables}. The proposed contribution is a calculational organization: the constrained Lorentzian boundary kernel is used as a common comparison object for candidate higher-dimensional universes. The same matrix formalism handles moduli, KK towers, scalar-tensor mixing, and boundary relocation.
+The Gaussian wave-functional width and the single-field spectrum are standard; the proposed contribution is their use as a common screening object for higher-dimensional models. Positivity tests stability before transfer functions are computed, the Schur complement exposes decoupling, and matrix evolution handles coupled modes uniformly. The method is useful only insofar as this organization rejects models or identifies the next observable more efficiently than a full conventional pipeline.
 
-This organization is useful only if it saves work or exposes a failure earlier than the conventional pipeline. The main savings are threefold. First, positivity of the imaginary kernel tests stability and normalizability before a full transfer-function calculation. Second, the Schur complement states immediately whether heavy internal modes decouple. Third, evolving a matrix Riccati equation can be simpler than separately normalizing a large set of coupled mode functions.
+The CMB will not generally determine a unique manifold. Distinct compactifications can share the same light theory, and viable scalar spectra must already be close to a featureless power law. Realistic outcomes are exclusion of a branch, constraints on modulus masses and couplings, or distinction through tensors, isocurvature, non-Gaussianity, or massive exchange. The $(3,3)$ and $(1,5)$ branches illustrate this point: their family indices agree, while flux support, mode profiles, and kernels differ; if all internal masses satisfy $M\gg H$, the difference disappears at quadratic order.
 
-\subsection{Can the CMB determine the manifold?}
-Generally no. Distinct manifolds can produce the same four-dimensional light theory, and even spectral data need not uniquely determine a geometry. The realistic outcomes are exclusion of a branch, distinction between broad classes, or constraints on modulus masses and couplings. The scalar two-point spectrum is already close to a featureless power law, so viable manifolds must reproduce nearly the same scalar kernel. Tensor modes, isocurvature, non-Gaussianity, and flux-dependent massive exchanges are more promising discriminants.
+The construction is semiclassical and assumes a controlled saddle, contour, and truncation. Moving an intermediate boundary only repartitions state preparation and propagation, and a high-curvature starting surface is not required. Passing the two-point screen does not guarantee successful reheating, late-time stability, acceptable non-Gaussianity, or particle physics, especially near the compactification scale where higher-derivative terms and the full KK tower may matter.
 
-For the $(3,3)$ and $(1,5)$ branches, the family index alone cannot distinguish them. The difference lies in the flux distribution, the internal wave-function profiles, and the resulting modulus and KK kernels. If both branches have all internal masses far above $H$, the CMB cannot tell them apart at quadratic order. If one branch contains a mode near the Hubble scale, the method identifies the corresponding correction and indicates which observable should be computed next.
-
-\subsection{Relation to an early high-curvature boundary}
-The kernel formalism does not require the initial boundary to lie at a particular curvature. Moving an intermediate boundary merely redistributes the description between an assigned boundary state and subsequent propagation, provided the same contour and dynamics are used. A specific quantum-boundary proposal may supply a physical earliest surface, but it is not needed for the kernel method itself.
-
-Similarly, a short decelerating period can lower a high initial Hubble rate before inflation, but that standard Friedmann scaling is not the source of the observed fractional perturbation amplitude. The amplitude is fixed by the kernel when observable modes exit the inflationary horizon, through the combination $H_*^2/\epsilon_*$. The present formalism cleanly separates that universal statement from compactification-specific dynamics.
-
-\subsection{Limitations}
-The method is semiclassical and quadratic. It assumes a controllable saddle, a well-defined contour, and a truncation whose omitted modes do not invalidate the Schur complement. A candidate passing the two-point test may still fail through non-Gaussianity, reheating, defects, late-time moduli, or particle-physics constraints. Near the compactification or quantum-gravity scale, higher-derivative operators and the full KK tower may be important. These are not technical footnotes: they define the domain in which the screening calculation is trustworthy.
+The construction is not intrinsically Gaussian. The same on-shell boundary
+action that yields the quadratic kernel generates, at higher order in the
+saddle expansion, cubic and quartic boundary kernels
+$K_{ABC}$ and $K_{ABCD}$, the wavefunction coefficients from which the
+primordial bispectrum and trispectrum follow by Gaussian-weighted
+contraction. The Schur-complement logic extends directly: integrating out a
+heavy modulus or Kaluza--Klein mode at cubic order produces exchange
+contributions to $K_{\zeta\zeta\zeta}$ whose non-analytic momentum
+dependence encodes the mass and spin of the exchanged internal state
+\cite{ArkaniHamedMaldacena2015}. Since two flux branches that are degenerate
+in the quadratic screen typically retain distinct internal spectra and
+overlap integrals, the cubic kernel is the natural next discriminant, and
+unitarity constraints on the higher kernels play the role that positivity of
+$K_I$ plays at quadratic order~\ref{Goodhew2021}. Extending the screening pipeline to these
+non-Gaussian saddle widths would probe features of the Lorentzian boundary:
+contour choice, state preparation, and the onset of saddle breakdown
+that the Gaussian width cannot resolve, and is a natural direction for
+future work.
 
 \section{Conclusion}
-A higher-dimensional cosmological model can be screened against the CMB through its constrained Lorentzian boundary kernel. The imaginary part of that kernel is the inverse covariance of the physical boundary variables. Scalar and tensor spectra are therefore read from the same object that tests stability and encodes mixing with internal modes.
+A higher-dimensional cosmology can be screened through the imaginary part of its constrained Lorentzian boundary kernel, which gives the covariance of the physical perturbations and encodes mixing with internal modes. The method reproduces standard single-field inflation in the decoupling limit and applies unchanged when the compactification is changed; only the field-space, mass, mixing, and spectral inputs differ.
 
-The method reproduces the standard single-field inflationary spectrum when moduli and KK modes decouple. Its practical value appears away from that limit. For $M_4\times S^2\times\CP^2$, the $(3,3)$ and $(1,5)$ flux branches have the same chiral family index but different flux support, modulus Hessians, charged spectra, and overlap tensors. These differences enter the effective scalar and tensor kernels through a Schur complement. For $M_4\times S^3\times S^3$, the same algorithm applies with different curvature and harmonic data. No new cosmological formalism is required when the manifold is changed; only the internal inputs change.
-
-The method is best viewed as an acceptability filter. It can reject unstable compactifications, identify light internal modes, quantify decoupling, and determine whether a full CMB likelihood calculation is warranted. It cannot generally infer a unique manifold from a nearly featureless scalar spectrum. A successful discrimination will most likely involve tensor modes, isocurvature, non-Gaussianity, or a characteristic departure from the four-dimensional consistency relations.
-
-Equivalent formulations of a quantum theory need not be equally transparent for every problem. Canonical and in-in methods are particularly effective for perturbative evolution on a chosen background. The boundary-wave-functional representation instead emphasizes the global state, its contour and boundary data, and the possibility of combining multiple sectors or saddles before observables are extracted. At quadratic order these descriptions agree. Beyond that order, the same organization may help identify contributions that are easy to suppress when the background, state, topology, or compactification sector is fixed at the outset. Establishing whether any such contribution survives as a gauge-invariant observable is a separate problem, but the kernel hierarchy provides a natural framework in which to ask it.
+Its role is an acceptability filter. It can reject unstable branches, identify light internal modes, quantify decoupling, and decide whether a full CMB likelihood calculation is warranted. Unique reconstruction of a manifold from the scalar spectrum is unlikely; useful discrimination will more plausibly come from tensors, isocurvature, non-Gaussianity, or violations of four-dimensional consistency relations.
 
 \appendix
 \section{Gaussian integration and the Schur complement}
@@ -629,22 +719,11 @@ one obtains
 \label{eq:diagvolshape}
 \end{equation}
 
-The unimodular condition fixes the full spacetime volume element, not the internal volume by itself. This distinction is visible already in reduced unimodular quantum cosmology: the condition fixes the product $Na^3$ and solves for the lapse, while the spatial scale factor remains dynamical \cite{Yamashita2026UnimodularQC}. In the present ten-dimensional product, a change in $a_1^2a_2^4$ can similarly be compensated by the external determinant or lapse. Therefore the default LBK screen uses the full two-radion metric in Eq.~\eqref{eq:fullS2CP2G}. A fixed-internal-volume line,
-\begin{equation}
-\delta\sigma=2\delta u+4\delta v=0,
-\end{equation}
-may be imposed as a separate truncation. Its induced metric is
-\begin{equation}
-\dd s_{\rm fixed\,V_6}^2=\frac43\dd\chi^2,
-\qquad
-G_{\chi\chi}^{\rm fixed\,V_6}=\frac43\Mpl^2,
-\label{eq:Gchichi}
-\end{equation}
-but this is not the generic UECKK kinetic metric used below.
+Unimodularity fixes the full spacetime volume element, not the internal volume alone. In reduced unimodular cosmology it fixes $Na^3$ while the scale factor remains dynamical \cite{Yamashita2026UnimodularQC}; analogously, changes in $a_1^2a_2^4$ may be compensated by the external determinant or lapse. The LBK screen therefore uses the full metric in Eq.~\eqref{eq:fullS2CP2G}; fixed internal volume would be an additional truncation.
 
 \section{Canonical modulus masses and the first CMB-scale screen}
 \label{app:canonicalmassscreen}
-The first compactification-level screen is the comparison between physical homogeneous-modulus masses and the inflationary scale. This appendix gives the coordinate-invariant construction using the full metric in Eq.~\eqref{eq:fullS2CP2G}. The fixed-internal-volume shape projection is included only as a diagnostic comparison.
+The first compactification-level screen compares physical homogeneous-modulus masses with the inflationary scale. The coordinate-invariant construction uses the full metric in Eq.~\eqref{eq:fullS2CP2G}.
 
 Let
 \begin{equation}
@@ -671,55 +750,42 @@ with signs already squared by the second derivative. At a stationary point, conn
 \end{equation}
 Its two eigenvalues $m_-^2$ and $m_+^2$ are the masses that should be compared with $H_*^2$ in the homogeneous-sector CMB screen.
 
-For the illustrative coefficients used in Sec.~\ref{sec:numericaldemo}, $A=B=q=1$ and $C=0.05$, the full two-field masses are those used in the demonstration figures:
-\begin{table}[h]
-\caption{Full two-radion canonical masses for the benchmark $S^2\times\CP^2$ branches. The optional column $m_{\rm fixed\,V_6}^2$ is the one-field mass obtained after imposing the additional fixed-internal-volume truncation of Eq.~\eqref{eq:Gchichi}. All entries are in the same dimensionless potential units used for the benchmark.}
-\label{tab:canonicalmasses}
-\begin{ruledtabular}
-\begin{tabular}{c c c c c c}
-branch & $a_1$ & $a_2$ & $m_-^2$ & $m_+^2$ & $m_{\rm fixed\,V_6}^2$\\
-\hline
-$(3,3)$ & $0.929$ & $0.725$ & $122.6$ & $255.6$ & $241.6$\\
-$(1,5)$ & $0.535$ & $1.151$ & $34.1$ & $72.1$ & $72.0$
-\end{tabular}
-\end{ruledtabular}
-\end{table}
-
-The CMB-scale decoupling variables are
-\begin{equation}
-\mu_\pm^2\equiv\frac{m_\pm^2}{H_*^2}.
-\end{equation}
+For the illustrative coefficients used in Sec.~\ref{sec:numericaldemo}, $A=B=q=1$ and $C=0.05$, the resulting two-field masses are reported in Table~\ref{tab:canonicalmasses} in the main text, where they are used as the input to the per-$k$ screening calculation. The CMB-scale decoupling variables are those of Eq.~\eqref{eq:mainmuratios}.
 A branch with both $\mu_\pm^2\gg1$ has no homogeneous-modulus isocurvature problem at quadratic order; the moduli decouple and the scalar spectrum approaches the universal four-dimensional result. A branch with one $\mu^2\sim1$ requires the full coupled kernel evolution because curvature--modulus mixing can generate scale dependence or residual isocurvature. A negative eigenvalue rejects the branch at the homogeneous level. After the microscopic normalization of $U$ is fixed by the UECKK action, Eq.~\eqref{eq:fullCanonicalMass} gives the physical ratios $m_\pm^2/H_*^2$.
 
-For completeness, if one imposes the separate fixed-internal-volume truncation $\sigma=\sigma_0$, the pullback potential is
-\begin{equation}
-U_{\rm fixed\,V_6}(\chi)=U\left(\frac{\sigma_0}{6}+\frac{2\chi}{3},
-\frac{\sigma_0}{6}-\frac{\chi}{3}\right).
-\end{equation}
-Then
-\begin{equation}
- m_{\rm fixed\,V_6}^2
- =\frac{p^I H_{IJ}p^J}{\Mpl^2 p^I\mathcal G_{IJ}p^J},
-\qquad
-p^I=\left(\frac23,-\frac13\right),
-\end{equation}
-with $p^I\mathcal G_{IJ}p^J=4/3$. This diagnostic projection is not used in place of the full two-field screen unless fixed internal volume is imposed as an additional model assumption.
+\section{Implemented numerical workflow}
+\label{app:numericalworkflow}
+The source package contains two executable levels of the screen.  The script \texttt{minimal\_per\_k\_kernel.py} evaluates the algebraic Schur-complement approximation in Eqs.~\eqref{eq:perkresponse}--\eqref{eq:perknormalized}.  The script \texttt{matrix\_per\_k\_kernel.py} follows through on the dynamical workflow and produces Fig.~\ref{fig:matrixperk}, Table~\ref{tab:matrixdiagnostics}, a CSV table, and the \LaTeX{} macros used in the main text.
 
-\section{Suggested numerical workflow}
-A minimal implementation for each $k$ is:
-\begin{enumerate}
-\item evaluate the background and canonical kinetic matrix;
-\item assemble $\Omega^2(k,\eta)$ for all retained modes;
-\item initialize the regular positive-frequency fundamental matrix where $k/a$ exceeds every background scale in the retained system;
-\item evolve either $F$ or the Riccati matrix $K$;
-\item project onto the physical boundary basis;
-\item check positivity of $K_I$;
-\item integrate out hidden modes by Eq.~\eqref{eq:schur};
-\item calculate the observables in Sec.~\ref{sec:observables}.
-\end{enumerate}
-The procedure is repeated over a logarithmic $k$ grid and over the compactification parameters or flux integers to be screened.
+For each wavenumber the code reads the canonical masses, assembles the coupled frequency matrix, initializes a positive-frequency fundamental matrix at $x_i=60$, and evolves it to $x_f=0.05$. It then forms $K=kF_{,x}F^{-1}$, checks positivity of $K_I=(K-K^\dagger)/(2i)$, integrates out hidden modes by the Schur complement, repeats with zero mixing, pivot-normalizes the response, and writes spectra and diagnostics over $10^{-4}\leq k\leq0.2\,{\rm Mpc}^{-1}$.
 
-\bibliographystyle{apsrev4-2}
-\bibliography{Lorentzian_Boundary_Kernels_PRD_References}
+The illustrative frequency correction is
+\begin{equation}
+C(x,k)=
+\begin{pmatrix}
+-2 & g_1T(x,k) & g_2T(x,k)\\
+g_1T(x,k) & \mu_1^2-2 & 0\\
+g_2T(x,k) & 0 & \mu_2^2-2
+\end{pmatrix},
+\label{eq:toyfrequencycorrection}
+\end{equation}
+where
+\begin{equation}
+T(x,k)=\exp\left[-\frac{1}{2\sigma_T^2}
+\ln^2\left(\frac{x/k}{|\eta_T|}\right)\right].
+\label{eq:turnprofile}
+\end{equation}
+The numerical demonstration uses $|\eta_T|=k_*^{-1}$, $\sigma_T=0.55$, and $(g_1,g_2)=(0.05,0.025)$.  These values are exposed at the top of the script and are not fitted.  Replacing Eqs.~\eqref{eq:toyfrequencycorrection}--\eqref{eq:turnprofile} by the constrained scalar or tensor matrix derived from a compactification leaves the rest of the code path unchanged.
+
+A physical UECKK run still requires the background trajectory, canonical curvature--radion mixing, and retained KK overlaps from the higher-dimensional action. Replacing the toy frequency constructor supplies these inputs; a precision stage would then pass the scalar, tensor, and isocurvature spectra to CLASS or CAMB and evaluate a likelihood rather than the illustrative pointwise envelope.
+
+\paragraph{Code Availability Statement:}
+
+The Python code used to generate the illustrative algebraic and matrix-evolved Lorentzian boundary-kernel screening results is openly available at a public GitHub repository at \url{https://github.com/eshaya/LorentzianBoundaryKernels_Software}. A permanent, citable version will be archived upon journal acceptance.
+The repository includes the scripts, benchmark configuration files, dependency information, and instructions needed to reproduce the figures and tabulated diagnostics. The turn profile and mixing strengths used in these demonstrations are illustrative rather than derived from the microscopic compactification model.
+
+
+\bibliographystyle{JHEP}
+\bibliography{LBK}
 
 \end{document}
